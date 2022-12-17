@@ -7,10 +7,10 @@ exports.createEvent = catchAsync(async (req, res) => {
 		dateTime: new Date(req.body.dateTime),
 	})
 
-	const eventToSave = await event.save()
+	const newEvent = await event.save()
 	res.status(201).json({
 		status: 'success',
-		data: eventToSave,
+		data: newEvent,
 	})
 })
 
