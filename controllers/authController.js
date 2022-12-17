@@ -1,3 +1,4 @@
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 const AppError = require('../utils/appError')
@@ -23,9 +24,8 @@ exports.signup = catchAsync(async (req, res, next) => {
 	const token = signToken(newUser._id)
 	// I can verify the signature in the web: https://jwt.io/
 
-	res.status(201).json({
+	res.status(201).set('Authorization', `Bearer ${token}`).json({
 		status: 'success',
-		token,
 		data: {
 			user: newUser,
 		},
