@@ -1,3 +1,4 @@
+const { promisify } = require('util')
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
@@ -24,12 +25,14 @@ exports.signup = catchAsync(async (req, res, next) => {
 	const token = signToken(newUser._id)
 	// I can verify the signature in the web: https://jwt.io/
 
-	res.status(201).set('Authorization', `Bearer ${token}`).json({
-		status: 'success',
-		data: {
-			user: newUser,
-		},
-	})
+	res.status(201)
+		.set('Authorization', `Bearer ${token}`)
+		.json({
+			status: 'success',
+			data: {
+				user: newUser,
+			},
+		})
 })
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -50,8 +53,36 @@ exports.login = catchAsync(async (req, res, next) => {
 	// 3) Send token to client
 	const token = signToken(user._id)
 
-	res.status(200).json({
+	res.status(200).set('Authorization', `Bearer ${token}`).json({
 		status: 'success',
-		token,
 	})
+})
+
+exports.protect = catchAsync(async (req, res, next) => {
+	let token
+
+	if (
+		req.headers.authorization &&
+		req.headers.authorization.startsWith('Bearer')
+	) {
+		token = req.headers.authorization.split(' ')[1]
+	}
+
+	if (!token) {
+		return next(new AppError('You are not logged in', 401))
+	}
+
+	const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+	const currentUser = User.findById(decoded.id)
+	if (!currentUser) {
+		return next(
+			new AppError(
+				'The user belonging to this token is no longer available',
+				401
+			)
+		)
+	}
+
+	req.user = currentUser
+	next()
 })
