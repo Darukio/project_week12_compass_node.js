@@ -14,14 +14,17 @@ const app = require('./app')
 const port = process.env.PORT || 3000
 
 database.on('error', (error) => {
+    // eslint-disable-next-line no-console
     console.log(error)
 })
 
 database.once('connected', () => {
+    // eslint-disable-next-line no-console
     console.log('Database Connected')
 })
 
 // APP
 app.listen(port, () => {
+    // eslint-disable-next-line no-console
     console.log(`Server Started at ${port}`)
 })
