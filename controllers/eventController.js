@@ -14,7 +14,7 @@ exports.createEvent = catchAsync(async (req, res) => {
 	})
 })
 
-exports.getAllEvents = catchAsync(async (req, res) => {
+exports.getAllEvents = catchAsync(async (req, res, next) => {
 	const events = await Event.find()
 	res.status(200).json({
 		status: 'success',
@@ -25,70 +25,125 @@ exports.getAllEvents = catchAsync(async (req, res) => {
 	})
 })
 
-exports.getEventsByWeekday = catchAsync(async (req, res) => {
-	const weekdayParam = parseInt(req.params.weekday, 10)
+exports.getEventsByWeekday = catchAsync(async (req, res, next) => {
+	const { weekdayParameter } = req.query
 
-	const events = await Event.aggregate([
-		{
-			$match: {
-				$expr: {
-					$eq: [
-						{
-							$dayOfWeek: '$dateTime',
-							// Note: I could use isoDayOfWeek, which brings the day of the week in a range from 0 to 6
-							// dayOfWeek brings the day of the week in a range from 1 to 7
-						},
-						weekdayParam,
-					],
+	if (weekdayParameter) {
+		const weekdayParam = parseInt(req.params.weekday, 10)
+
+		const events = await Event.aggregate([
+			{
+				$match: {
+					$expr: {
+						$eq: [
+							{
+								$dayOfWeek: '$dateTime',
+								// Note: I could use isoDayOfWeek, which brings the day of the week in a range from 0 to 6
+								// dayOfWeek brings the day of the week in a range from 1 to 7
+							},
+							weekdayParam,
+						],
+					},
 				},
 			},
-		},
-	])
+		])
 
-	/*
-	Alternative:
-	const events = await Event.aggregate(
-		[{
-			$addFields: {
-				dayOfWeek: {
-					$dayOfWeek: "$dateTime"
+		/*
+		Alternative:
+		const events = await Event.aggregate(
+			[{
+				$addFields: {
+					dayOfWeek: {
+						$dayOfWeek: "$dateTime"
+					}
 				}
-			}
-		}, { $match: { dayOfWeek: weekdayParam } }]
-	)
-	*/
+			}, { $match: { dayOfWeek: weekdayParam } }]
+		)
+		*/
 
-	res.status(200).json({
-		status: 'success',
-		results: events.length,
-		data: {
-			events,
-		},
-	})
+		res.status(200).json({
+			status: 'success',
+			results: events.length,
+			data: {
+				events,
+			},
+		})
+	}
 })
 
-exports.getOneEvent = catchAsync(async (req, res) => {
-	const event = await Event.findById(req.params.id)
-	res.status(200).json({
-		stauts: 'sucess',
-		data: event,
-	})
+exports.getOneEvent = catchAsync(async (req, res, next) => {
+	// eslint-disable-next-line node/no-unsupported-features/es-syntax
+	const { weekdayParameter } = req.query
+	if (!weekdayParameter || weekdayParameter === 'false') {
+		const event = await Event.findById(req.params.id)
+		res.status(200).json({
+			stauts: 'sucess',
+			data: event,
+		})
+	} else {
+		next()
+	}
 })
 
-exports.updateEvent = catchAsync(async (req, res) => {
-	const { id } = req.params
-	const updatedData = req.body
-	const options = { new: true }
+exports.updateEvent = catchAsync(async (req, res, next) => {
+	const { weekdayParameter } = req.query
+	if (!weekdayParameter || weekdayParameter === 'false') {
+		const { id } = req.params
+		const updatedData = req.body
+		const options = { new: true }
 
-	const result = await Event.findByIdAndUpdate(id, updatedData, options)
+		const result = await Event.findByIdAndUpdate(id, updatedData, options)
 
-	res.send(result)
+		res.send(result)
+	}
 })
 
-exports.deleteEvent = catchAsync(async (req, res) => {
-	const { id } = req.params
-	const event = await Event.findByIdAndDelete(id)
-	res.send(
-		`Event ${event._id} with description ${event.description} has been deleted...`
-	)
+exports.deleteEvent = catchAsync(async (req, res, next) => {
+	const { weekdayParameter } = req.query
+	if (!weekdayParameter || weekdayParameter === 'false') {
+		const { id } = req.params
+		const event = await Event.findByIdAndDelete(id)
+		res.send(
+			`Event ${event._id} with description ${event.description} has been deleted...`
+		)
+	} else {
+		next()
+	}
+})
+
+exports.deleteEventsByWeekday = catchAsync(async (req, res, next) => {
+	const { weekdayParameter } = req.query
+
+	if (weekdayParameter) {
+		const weekdayParam = parseInt(req.params.weekday, 10)
+
+		const events = await Event.aggregate([
+			{
+				$match: {
+					$expr: {
+						$eq: [
+							{
+								$dayOfWeek: '$dateTime',
+								// Note: I could use isoDayOfWeek, which brings the day of the week in a range from 0 to 6
+								// dayOfWeek brings the day of the week in a range from 1 to 7
+							},
+							weekdayParam,
+						],
+					},
+				},
+			},
+		])
+
+		events.forEach(async (event) => {
+			await Event.findByIdAndDelete(event._id)
+		})
+
+		res.status(200).json({
+			status: 'success',
+			results: events.length,
+			data: {
+				events,
+			},
+		})
+	}
 })
