@@ -28,7 +28,7 @@ Open the MongoDB Compass app and create a new connection.
 In the URL field paste the following string: ``mongodb+srv://Paulo:0dWhRZMZgeYO848h@cluster0.dtrwe1o.mongodb.net/test``
 
 ### Executing server.js
-Open the project in Visual Studio Code, open a new terminal and writes ``npm start`` to run the API
+Open the project in Visual Studio Code, open a new terminal and writes ``npm start`` to run the API.
 
 ### Routes
 - Base route: /api/v1
@@ -51,7 +51,7 @@ Open the project in Visual Studio Code, open a new terminal and writes ``npm sta
 - Delete events from weekday: /events/{dayOfTheWeekday}?weekdayParameter=true
 
 ### Executing tests
-Writes ``npm test`` in a terminal to run the tests
+Writes ``npm test`` in a terminal to run the tests.
 
 ## Project structure
 <pre>
