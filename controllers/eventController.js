@@ -94,7 +94,7 @@ exports.updateEvent = catchAsync(async (req, res, next) => {
 
 		const result = await Event.findByIdAndUpdate(id, updatedData, options)
 
-		res.send(result)
+		res.status(200).send(result)
 	}
 })
 
@@ -103,7 +103,7 @@ exports.deleteEvent = catchAsync(async (req, res, next) => {
 	if (!weekdayParameter || weekdayParameter === 'false') {
 		const { id } = req.params
 		const event = await Event.findByIdAndDelete(id)
-		res.send(
+		res.status(200).send(
 			`Event ${event._id} with description ${event.description} has been deleted...`
 		)
 	} else {
