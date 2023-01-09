@@ -5,6 +5,7 @@ const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const mongoSanitize = require('express-mongo-sanitize')
 const xssClean = require('xss-clean')
+const hpp = require('hpp')
 const eventRoutes = require('./routes/eventRoutes')
 const userRoutes = require('./routes/userRoutes')
 
@@ -22,7 +23,10 @@ app.use(limiter)
 app.use(express.json({ limit: '10kb' }))
 
 app.use(mongoSanitize())
+
 app.use(xssClean())
+
+app.use(hpp())
 
 app.use(compression())
 
