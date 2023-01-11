@@ -62,8 +62,3 @@ describe('GET /events/', () => {
 			.expect(200)
 	})
 })
-
-describe('GET /events', () => {
-	describe('/{id}', () => {})
-	describe('/{weekday}', () => {})
-})
