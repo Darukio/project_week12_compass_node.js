@@ -1,6 +1,5 @@
 const express = require('express')
 const compression = require('compression')
-// eslint-disable-next-line node/no-extraneous-require
 const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const mongoSanitize = require('express-mongo-sanitize')

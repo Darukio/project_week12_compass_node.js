@@ -18,6 +18,10 @@ beforeEach(async () => {
 		password: '12345678',
 		passwordConfirm: '12345678',
 	})
+	await Event.create({
+		description: "Mati's Birthday",
+		dateTime: '2022-07-21',
+	})
 })
 afterEach(async () => await db.clearDatabase())
 afterAll(async () => await db.closeDatabase())
@@ -57,4 +61,9 @@ describe('GET /events/', () => {
 			.expect('Content-Type', /json/)
 			.expect(200)
 	})
+})
+
+describe('GET /events', () => {
+	describe('/{id}', () => {})
+	describe('/{weekday}', () => {})
 })

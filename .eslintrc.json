@@ -13,7 +13,7 @@
         "jest"
     ],
     "rules": {
-        "prettier/prettier": "off",
+        "prettier/prettier": "warn",
         "spaced-comment": "off",
         "no-console": "warn",
         "consistent-return": "off",

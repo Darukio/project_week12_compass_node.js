@@ -41,7 +41,9 @@ describe('POST /users', () => {
 			)
 			expect(userPersisted.firstName).toBe(newUser.firstName)
 			expect(userPersisted.lastName).toBe(newUser.lastName)
-			expect(userPersisted.birthDate).toStrictEqual(new Date(newUser.birthDate))
+			expect(userPersisted.birthDate).toStrictEqual(
+				new Date(newUser.birthDate)
+			)
 			expect(userPersisted.city).toBe(newUser.city)
 			expect(
 				await userPersisted.correctPassword(

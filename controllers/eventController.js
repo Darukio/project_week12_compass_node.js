@@ -72,7 +72,6 @@ exports.getEventsByWeekday = catchAsync(async (req, res, next) => {
 })
 
 exports.getOneEvent = catchAsync(async (req, res, next) => {
-	// eslint-disable-next-line node/no-unsupported-features/es-syntax
 	const { weekdayParameter } = req.query
 	if (!weekdayParameter || weekdayParameter === 'false') {
 		const event = await Event.findById(req.params.id)
