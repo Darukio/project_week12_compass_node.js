@@ -78,6 +78,7 @@ You can create two environments, one destined to Dev and another to Prod. In bot
 .
 ├───.eslintrc.json
 ├───.gitignore
+├───.prettierrc
 ├───app.js
 ├───package-lock.json
 ├───package.json
