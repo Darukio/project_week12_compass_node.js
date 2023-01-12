@@ -71,7 +71,7 @@ Writes `npm test` in a terminal to run the tests.
 
 ## Deploy
 
-The deployment was made in **Vercel**, you can access it with the following link: https://project-week12-compass-node-1q82l31mh-darukio.vercel.app/.
+The deployment was made in **Vercel**, you can access it with the following link: https://project-week12-compass-node-js.vercel.app/.
 (Make sure you use the correct path, with some route listed above).
 
 ## Testing routes with Postman
