@@ -9,8 +9,9 @@ This repository contains a project for the Node.js course in Compass, which proj
 -   Basic Authentication (**Signup**/**Login** with hashed password and a token).
 -   Event model with **CRUD** operations.
 -   Error handling and validations.
--   Test cases with Jest and supertest.
--   Linting with Eslint.
+-   Test cases with **Jest** and **Supertest**.
+-   Linting with **Eslint**.
+-   Documentation with **Swagger**.
 
 ## Requirements
 
@@ -53,6 +54,7 @@ Writes `npm test` in a terminal to run the tests.
 -   Get all events: /events
 -   Get event by id: /events/{id}
 -   Get events by weekday: /events/{dayOfTheWeek}?weekdayParameter=true
+    where dayOfTheWeek is a string, for example, "monday", "tuesday", "thursday", etc.
 
 ### PATCH
 
@@ -63,14 +65,22 @@ Writes `npm test` in a terminal to run the tests.
 -   Delete event by id: /events/{id}
 -   Delete events from weekday: /events/{dayOfTheWeekday}?weekdayParameter=true
 
+### DOCUMENTATION
+
+-   You can see more detailed documentation in the following route: /docs
+
 ## Deploy
 
-The deployment was made in Vercel, you can access it with the following link: https://project-week12-compass-node-1q82l31mh-darukio.vercel.app/.
+The deployment was made in **Vercel**, you can access it with the following link: https://project-week12-compass-node-1q82l31mh-darukio.vercel.app/.
 (Make sure you use the correct path, with some route listed above).
 
 ## Testing routes with Postman
 
-You can create two environments, one destined to Dev and another to Prod. In both environments, you'll create a variable called "URL" that will hold the URL you'll access during the request. In Dev you'll have your localhost, and in Prod the deployed app URL. First, you'll need to login, if you don't have a user, make a signup request with your first name, last name, birthdate, city, country, email, password and a password confirm. Then, you have to create a variable "Token" and paste there the token given in login. Later, create a new request for the Events route, for example GET (get all events), and copy in the path field: {{URL}}api/v1/events/; also, in the Auth area, choose "Bearer Token" type and write the {{Token}} variable in the text field. Now, you can do a request with an authorized user.
+You can create two environments, one destined to Dev and another to Prod. In both environments, you'll create a variable called "URL" that will hold the URL you'll access during the request. In Dev you'll have your localhost, and in Prod the deployed app URL.
+
+First, you'll need to login, if you don't have a user, make a signup request with your first name, last name, birthdate, city, country, email, password and a password confirm. Then, you have to create a variable "Token" and paste there the token given in login.
+
+Later, create a new request for the Events route, for example GET (get all events), and copy in the path field: {{URL}}api/v1/events/; also, in the Auth area, choose "Bearer Token" type and write the {{Token}} variable in the text field. Now, you can do a request with an authorized user.
 
 ## Project structure
 
@@ -83,6 +93,7 @@ You can create two environments, one destined to Dev and another to Prod. In bot
 ├───package-lock.json
 ├───package.json
 ├───server.js
+├───swagger.js
 ├───vercel.json
 │
 ├───controllers
