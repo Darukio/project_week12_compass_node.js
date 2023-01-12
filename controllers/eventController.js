@@ -43,7 +43,7 @@ exports.getEventsByWeekday = catchAsync(async (req, res, next) => {
             req.params.weekday.toLowerCase().trim()
         )
 
-        if (weekdayParameter === -1) {
+        if (weekdayParameter !== -1) {
             const events = await Event.aggregate([
                 {
                     $match: {
@@ -147,7 +147,7 @@ exports.deleteEventsByWeekday = catchAsync(async (req, res, next) => {
             req.params.weekday.toLowerCase().trim()
         )
 
-        if (weekdayParam === -1) {
+        if (weekdayParam !== -1) {
             const events = await Event.aggregate([
                 {
                     $match: {
