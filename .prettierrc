@@ -3,5 +3,5 @@
     "semi": false,
     "tabWidth": 4,
     "endOfLine": "auto",
-    "useTabs": true
+    "useTabs": false
 }

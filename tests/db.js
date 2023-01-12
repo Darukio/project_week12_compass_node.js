@@ -8,32 +8,32 @@ let mongod = null
  * Connect to the in-memory database.
  */
 module.exports.connect = async () => {
-	mongod = MongoMemoryServer.create()
+    mongod = MongoMemoryServer.create()
 
-	const uri = (await mongod).getUri()
+    const uri = (await mongod).getUri()
 
-	await mongoose.connect(uri)
+    await mongoose.connect(uri)
 }
 
 /**
  * Drop database, close the connection and stop mongod.
  */
 module.exports.closeDatabase = async () => {
-	await mongoose.connection.dropDatabase()
+    await mongoose.connection.dropDatabase()
 
-	await mongoose.disconnect()
-	;(await mongod).stop()
+    await mongoose.disconnect()
+    ;(await mongod).stop()
 }
 
 /**
  * Remove all the data for all db collections.
  */
 module.exports.clearDatabase = async () => {
-	const { collections } = mongoose.connection
+    const { collections } = mongoose.connection
 
-	// eslint-disable-next-line no-restricted-syntax, guard-for-in
-	for (const key in collections) {
-		const collection = collections[key]
-		collection.deleteMany()
-	}
+    // eslint-disable-next-line no-restricted-syntax, guard-for-in
+    for (const key in collections) {
+        const collection = collections[key]
+        collection.deleteMany()
+    }
 }
